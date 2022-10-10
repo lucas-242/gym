@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym", "Gym\Gym.csproj", "{3F9971FA-AE53-4364-9E09-6D1997E6A1BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{225FE43C-38C2-4914-842D-BA03687A5C8C} = {225FE43C-38C2-4914-842D-BA03687A5C8C}
+		{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA} = {A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.Workout", "Gym.Workout\Gym.Workout.csproj", "{225FE43C-38C2-4914-842D-BA03687A5C8C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA} = {A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.Authentication", "Gym.Authentication\Gym.Authentication.csproj", "{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F9971FA-AE53-4364-9E09-6D1997E6A1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F9971FA-AE53-4364-9E09-6D1997E6A1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F9971FA-AE53-4364-9E09-6D1997E6A1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F9971FA-AE53-4364-9E09-6D1997E6A1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{225FE43C-38C2-4914-842D-BA03687A5C8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{225FE43C-38C2-4914-842D-BA03687A5C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{225FE43C-38C2-4914-842D-BA03687A5C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{225FE43C-38C2-4914-842D-BA03687A5C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1F0FF67-03E1-490E-9E32-C87EFBFF87BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9E8C7C1-F606-4C9F-9519-7E3BC3A85A30}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,127 @@
+Table Address {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255)
+  State varchar(2) [not null]
+  City varchar(255) [not null]
+  ZipCode varchar(8) [not null]
+  Neighborhood varchar(255) [not null]
+  Street varchar(255) [not null]
+  Number int [not null]
+  Complement varchar(255)
+  Latitude float [not null]
+  Longitude float [not null]
+}
+
+Table BusinessHour {
+    Id int [pk, increment] // auto-increment
+    OpeningTime time [not null]
+    ClosingTime time [not null]
+    Sunday bit [not null, default: 0]
+    Monday bit [not null, default: 0]
+    Tuesday bit [not null, default: 0]
+    Wednesday bit [not null, default: 0]
+    Thursday bit [not null, default: 0]
+    Friday bit [not null, default: 0]
+    Saturday bit [not null, default: 0]
+    CompanyId int [not null, ref: > Company.Id]
+}
+
+Table Company {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) [not null]
+  CNPJ varchar(14) unique [not null]
+  Image varchar(400) [null]
+  Email varchar(255) [null]
+  Phone varchar(11) [null]
+  IsActive bit [not null, default: 1]
+  AddressId int [not null, ref: > Address.Id]
+}
+
+
+Table User {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) [not null]
+  Email varchar(255) unique [not null]
+  Phone varchar(11) [not null]
+  Password varchar(MAX) [not null]
+  Role varchar(60) [not null]
+  CompanyId int [ref: > Company.Id]
+}
+
+
+Table Routine {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) [not null]
+  ExpirationDate datetime
+  CreatedBy int [not null, ref: > User.Id]
+  UpdatedBy int [not null, ref: > User.Id]
+  StudentId int [ref: > User.Id]
+  CompanyId int [not null, ref: > Company.Id]
+}
+
+
+Table Workout {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) [not null]
+  Sunday bit [not null, default: 0]
+  Monday bit [not null, default: 0]
+  Tuesday bit [not null, default: 0]
+  Wednesday bit [not null, default: 0]
+  Thursday bit [not null, default: 0]
+  Friday bit [not null, default: 0]
+  Saturday bit [not null, default: 0]
+  RoutineId int [not null, ref: > Routine.Id]
+}
+
+Table WorkoutExercise {
+  Id int [pk, increment] // auto-increment
+  Comments varchar(255)
+  RestBetweenSets int [not null]
+  MachineNumber varchar(5)
+  WorkoutId int [not null, ref: > Workout.Id]
+  ExerciseId int [not null, ref: > Exercise.Id]
+}
+
+Table Set {
+  Id int [pk, increment] // auto-increment
+  Repetitions int
+  Load int
+  Duration int
+  WorkoutExerciseId int [not null, ref: > WorkoutExercise.Id]
+}
+
+Table Exercise {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) unique [not null]
+}
+
+Table Muscle {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) unique [not null]
+}
+
+Table ExerciseMuscle {
+  Id int [pk, increment] // auto-increment
+  IsPrimary bit [not null]
+  ExerciseId int [not null, ref: > Exercise.Id]
+  MuscleId int [not null, ref: > Muscle.Id]
+}
+
+
+Table ExerciseImage {
+  Id int [pk, increment] // auto-increment
+  Url varchar(255) [not null]
+  ExerciseId int [not null, ref: > Exercise.Id]
+}
+
+Table Tip {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) [not null]
+  ExerciseId int [not null, ref: > Exercise.Id]
+}
+
+Table Execution {
+  Id int [pk, increment] // auto-increment
+  Name varchar(255) [not null]
+  ExerciseId int [not null, ref: > Exercise.Id]
+}
