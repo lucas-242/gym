@@ -1,6 +1,5 @@
-﻿using Gym.Authentication.Domain.Entities;
-using Gym.Authentication.Domain.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Gym.Domain.Models;
+using Gym.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gym.Controllers
@@ -24,6 +23,7 @@ namespace Gym.Controllers
         {
             try
             {
+                _logger.LogInformation("Authenticated Initiated");
                 var response = _authService.AuthenticateByEmail(request, IpAddress());
 
                 if (response == null)

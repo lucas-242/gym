@@ -1,7 +1,5 @@
-using Gym.Authentication.Domain.Entities;
+using Gym.Domain.Helpers;
 using Gym.Settings;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +15,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddPolicies(builder.Configuration);
 builder.Services.AddBearer(builder.Configuration);
+builder.Services.AddPersistence(builder.Configuration);
 builder.Services.InjectDependencies();
 builder.Services.Configure<AuthConfigs>(builder.Configuration.GetSection("AuthConfigs"));
-
 
 var app = builder.Build();
 
