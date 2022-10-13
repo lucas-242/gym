@@ -1,4 +1,4 @@
-﻿namespace Gym.Domain.Models
+﻿namespace Gym.DataAccess.Response
 {
     public class AuthResponse
     {

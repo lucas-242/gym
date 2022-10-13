@@ -1,5 +1,4 @@
 ﻿using Gym.Domain.Entities;
-using Gym.Domain.Models;
 
 namespace Gym.Application.Services.Repositories
 {
@@ -7,6 +6,5 @@ namespace Gym.Application.Services.Repositories
     {
         public User? Get(string email);
         void CreateRefreshToken(RefreshToken model);
-        void UpdateRefreshToken(RefreshToken model);
     }
 }

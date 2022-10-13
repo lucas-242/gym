@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Gym.DataAccess\Gym.DataAccess.csproj" />
-  </ItemGroup>
-
 </Project>

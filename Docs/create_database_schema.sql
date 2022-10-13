@@ -56,6 +56,19 @@ CREATE TABLE [User] (
 )
 GO
 
+CREATE TABLE [RefreshToken] (
+  [Id] int PRIMARY KEY IDENTITY(1, 1),
+  [Token] varchar(MAX) NOT NULL,
+  [Expires] datetime NOT NULL,
+  [CreatedAt] datetime NOT NULL,
+  [CreatedByIp] varchar(15) NOT NULL,
+  [Revoked] datetime,
+  [RevokedByIp] varchar(15),
+  [ReplacedByToken] varchar(MAX),
+  [UserId] int
+)
+GO
+
 CREATE TABLE [Routine] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] varchar(255) NOT NULL,
@@ -148,6 +161,9 @@ ALTER TABLE [Company] ADD FOREIGN KEY ([AddressId]) REFERENCES [Address] ([Id])
 GO
 
 ALTER TABLE [User] ADD FOREIGN KEY ([CompanyId]) REFERENCES [Company] ([Id])
+GO
+
+ALTER TABLE [RefreshToken] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
 GO
 
 ALTER TABLE [Routine] ADD FOREIGN KEY ([CreatedBy]) REFERENCES [User] ([Id])

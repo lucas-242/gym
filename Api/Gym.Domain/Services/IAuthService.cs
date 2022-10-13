@@ -1,4 +1,5 @@
-﻿using Gym.Domain.Models;
+﻿using Gym.DataAccess.Request;
+using Gym.DataAccess.Response;
 
 namespace Gym.Domain.Services
 {

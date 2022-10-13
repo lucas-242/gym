@@ -1,6 +1,5 @@
 ﻿using Gym.Application.Services.Repositories;
 using Gym.Domain.Entities;
-using Gym.Domain.Models;
 using Gym.Infrastructure.Interfaces;
 
 namespace Gym.Infrastructure.Repositories
@@ -26,12 +25,8 @@ namespace Gym.Infrastructure.Repositories
 
         public void CreateRefreshToken(RefreshToken model)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRefreshToken(RefreshToken model)
-        {
-            throw new NotImplementedException();
+            _applicationDbContext.RefreshTokens.Add(model);
+            _applicationDbContext.SaveChanges();
         }
     }
 }

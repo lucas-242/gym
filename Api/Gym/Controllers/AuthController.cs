@@ -1,4 +1,4 @@
-﻿using Gym.Domain.Models;
+﻿using Gym.DataAccess.Request;
 using Gym.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 

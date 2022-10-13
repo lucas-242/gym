@@ -20,6 +20,7 @@ namespace Gym.Infrastructure.Persistence
         public virtual DbSet<ExerciseMuscle> ExerciseMuscles { get; set; } = null!;
         public virtual DbSet<Muscle> Muscles { get; set; } = null!;
         public virtual DbSet<Routine> Routines { get; set; } = null!;
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
         public virtual DbSet<Set> Sets { get; set; } = null!;
         public virtual DbSet<Tip> Tips { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -219,6 +220,34 @@ namespace Gym.Infrastructure.Persistence
                     .HasForeignKey(d => d.UpdatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Routine__Updated__534D60F1");
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.ToTable("RefreshToken");
+
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedByIp)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Expires).HasColumnType("datetime");
+
+                entity.Property(e => e.ReplacedByToken).IsUnicode(false);
+
+                entity.Property(e => e.Revoked).HasColumnType("datetime");
+
+                entity.Property(e => e.RevokedByIp)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Token).IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.RefreshTokens)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__RefreshTo__UserI__6FE99F9F");
             });
 
             modelBuilder.Entity<Set>(entity =>

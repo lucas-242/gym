@@ -1,7 +1,8 @@
 ﻿using Gym.Application.Services.Repositories;
+using Gym.DataAccess.Request;
+using Gym.DataAccess.Response;
 using Gym.Domain.Entities;
 using Gym.Domain.Helpers;
-using Gym.Domain.Models;
 using Gym.Domain.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -79,56 +80,5 @@ namespace Gym.Application.Services
                 UserId = userId
             };
         }
-
-
-        //public AuthResponse RefreshToken(string token, string ipAddress)
-        //{
-        //    var user = _userRepository.Get(new UserFilters(null, token)).FirstOrDefault();
-
-        //    if (user == null) return null;
-
-        //    var refreshToken = user.RefreshTokens.SingleOrDefault(x => x.Token == token);
-
-        //    if (!refreshToken.IsActive) return null;
-
-        //    var newRefreshToken = GenerateRefreshToken(ipAddress, user.Id);
-        //    refreshToken.Revoked = DateTime.UtcNow;
-        //    refreshToken.RevokedByIp = ipAddress;
-        //    refreshToken.ReplacedByToken = newRefreshToken.Token;
-
-        //    using var ts = new TransactionScope();
-        //    _userRepository.UpdateRefreshToken(refreshToken);
-
-        //    user.RefreshTokens.Add(newRefreshToken);
-        //    _userRepository.CreateRefreshToken(newRefreshToken);
-        //    ts.Complete();
-
-
-        //    var jwtToken = GenerateToken(user);
-
-        //    return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
-        //}
-
-        //public bool RevokeToken(string token, string ipAddress)
-        //{
-        //    var user = _userRepository.Get(new UserFilters(null, token)).FirstOrDefault();
-
-        //    if (user == null) return false;
-
-        //    var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
-
-        //    if (!refreshToken.IsActive) return false;
-
-        //    refreshToken.Revoked = DateTime.UtcNow;
-        //    refreshToken.RevokedByIp = ipAddress;
-        //    _userRepository.UpdateRefreshToken(refreshToken);
-
-        //    return true;
-        //}
-
-
-      
-
-       
     }
 }

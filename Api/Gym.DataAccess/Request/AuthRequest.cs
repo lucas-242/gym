@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Gym.Domain.Models
+namespace Gym.DataAccess.Request
 {
     public class AuthRequest
     {

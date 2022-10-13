@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Gym.Domain.Entities
+﻿namespace Gym.Domain.Entities
 {
     public partial class User
     {
@@ -21,6 +18,7 @@ namespace Gym.Domain.Entities
         public int? CompanyId { get; set; }
 
         public virtual Company? Company { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         public virtual ICollection<Routine> RoutineCreatedByNavigations { get; set; }
         public virtual ICollection<Routine> RoutineStudents { get; set; }
         public virtual ICollection<Routine> RoutineUpdatedByNavigations { get; set; }
