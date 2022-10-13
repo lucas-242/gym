@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Gym.Domain.Entities
+namespace Gym.Entities
 {
     public partial class Exercise
     {

@@ -1,11 +1,11 @@
-﻿using Gym.Domain.Services;
-using Gym.Domain.Helpers;
+﻿using Gym.Gonfigs;
+using Gym.Services;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 
 namespace Gym.Application.Services
 {
-    public class PasswordHasherService : IPasswordHasherService
+    internal class PasswordHasherService : IPasswordHasherService
     {
 
         private readonly AuthConfigs _authConfigs;

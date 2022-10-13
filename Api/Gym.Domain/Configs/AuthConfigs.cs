@@ -1,11 +1,9 @@
-﻿namespace Gym.Domain.Helpers
+﻿namespace Gym.Gonfigs
 {
     public sealed class AuthConfigs
     {
-        /// <summary>Secret utilizado ao gerar o token JWT</summary>
         public string JwtSecret { get; set; }
 
-        /// <summary>Número de iterações no momento de efetuar o hasher da senha</summary>
         public int PasswordHashIterations { get; set; }
 
         public int PasswordSaltSize { get; set; }

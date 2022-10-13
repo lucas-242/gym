@@ -1,10 +1,10 @@
 ﻿using Gym.Application.Repositories;
-using Gym.Domain.Entities;
-using Gym.Domain.Services;
+using Gym.Entities;
+using Gym.Services;
 
 namespace Gym.Application.Services
 {
-    public class UserService : IUserService
+    internal class UserService : IUserService
     {
         private readonly IPasswordHasherService _passwordHasherService;
         private readonly IUserRepository _userRepository;

@@ -1,4 +1,4 @@
-﻿namespace Gym.Domain.Entities
+﻿namespace Gym.Entities
 {
     public class RefreshToken
     {

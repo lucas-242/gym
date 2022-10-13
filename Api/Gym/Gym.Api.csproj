@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gym.Infrastructure\Gym.Infrastructure.csproj" />
+    <ProjectReference Include="..\Gym.Infrastructure\Gym.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

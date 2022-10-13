@@ -1,7 +1,7 @@
 ﻿using Gym.DataAccess.Request;
 using Gym.DataAccess.Response;
 
-namespace Gym.Domain.Services
+namespace Gym.Services
 {
     public interface IAuthService
     {

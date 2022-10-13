@@ -1,4 +1,4 @@
-﻿namespace Gym.Domain.Services
+﻿namespace Gym.Services
 {
     public interface IPasswordHasherService
     {

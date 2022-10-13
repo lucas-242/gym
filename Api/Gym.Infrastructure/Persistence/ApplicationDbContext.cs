@@ -1,10 +1,10 @@
-﻿using Gym.Domain.Entities;
-using Gym.Infrastructure.Interfaces;
+﻿using Gym.Application.Persistence;
+using Gym.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gym.Infrastructure.Persistence
+namespace Gym.EntityFramework.Persistence
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    internal class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
          : base(options)

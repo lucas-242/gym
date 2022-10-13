@@ -1,10 +1,10 @@
-﻿using Gym.Application.Services.Repositories;
-using Gym.Domain.Entities;
-using Gym.Infrastructure.Interfaces;
+﻿using Gym.Application.Persistence;
+using Gym.Application.Services.Repositories;
+using Gym.Entities;
 
-namespace Gym.Infrastructure.Repositories
+namespace Gym.EntityFramework.Repositories
 {
-    public class AuthRepository : IAuthRepository
+    internal class AuthRepository : IAuthRepository
     {
         private readonly IApplicationDbContext _applicationDbContext;
 

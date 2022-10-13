@@ -1,10 +1,10 @@
-﻿using Gym.Application.Repositories;
-using Gym.Domain.Entities;
-using Gym.Infrastructure.Interfaces;
+﻿using Gym.Application.Persistence;
+using Gym.Application.Repositories;
+using Gym.Entities;
 
-namespace Gym.Infrastructure.Repositories
+namespace Gym.EntityFramework.Repositories
 {
-    public class UserRepository : IUserRepository
+    internal class UserRepository : IUserRepository
     {
         private readonly IApplicationDbContext _applicationDbContext;
         public UserRepository(IApplicationDbContext applicationDbContext)

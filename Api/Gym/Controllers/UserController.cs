@@ -1,8 +1,10 @@
-﻿using Gym.Domain.Entities;
-using Gym.Domain.Services;
+﻿using Gym.Entities;
+using Gym.Enums;
+using Gym.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gym.Controllers
+namespace Gym.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -18,6 +20,7 @@ namespace Gym.Controllers
         }
 
         [HttpPost]
+        [Authorize(nameof(Policies.NotStudent))]
         public IActionResult Create([FromBody] User request)
         {
             try

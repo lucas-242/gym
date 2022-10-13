@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Gym.Enums;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Gym.Settings
+namespace Gym.Api.Settings
 {
     internal static class AuthSettings
     {
@@ -21,6 +22,17 @@ namespace Gym.Settings
                                  builder.AllowAnyHeader();
                                  builder.AllowAnyMethod();
                                  builder.AllowCredentials();
+                             }
+                     );
+            });
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.NotStudent.ToString(),
+                             policy =>
+                             {
+                                 policy.RequireRole(Roles.admin.ToString(), Roles.teacher.ToString());
                              }
                      );
             });

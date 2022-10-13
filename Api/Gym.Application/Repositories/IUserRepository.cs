@@ -1,4 +1,4 @@
-﻿using Gym.Domain.Entities;
+﻿using Gym.Entities;
 
 namespace Gym.Application.Repositories
 {

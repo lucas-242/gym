@@ -1,10 +1,9 @@
-﻿using Gym.Domain.Entities;
+﻿using Gym.Entities;
 
-namespace Gym.Domain.Services
+namespace Gym.Services
 {
     public interface IUserService
     {
         public User Create(User model);
-
     }
 }

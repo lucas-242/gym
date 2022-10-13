@@ -1,7 +1,7 @@
-﻿using Gym.Domain.Entities;
+﻿using Gym.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gym.Infrastructure.Interfaces
+namespace Gym.Application.Persistence
 {
     public interface IApplicationDbContext
     {

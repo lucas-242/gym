@@ -1,8 +1,8 @@
 ﻿using Gym.DataAccess.Request;
-using Gym.Domain.Services;
+using Gym.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gym.Controllers
+namespace Gym.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

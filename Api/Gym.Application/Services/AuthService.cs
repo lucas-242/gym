@@ -1,9 +1,9 @@
 ﻿using Gym.Application.Services.Repositories;
 using Gym.DataAccess.Request;
 using Gym.DataAccess.Response;
-using Gym.Domain.Entities;
-using Gym.Domain.Helpers;
-using Gym.Domain.Services;
+using Gym.Entities;
+using Gym.Gonfigs;
+using Gym.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Gym.Application.Services
 {
-    public class AuthService : IAuthService
+    internal class AuthService : IAuthService
     {
         private readonly AuthConfigs _authConfigs;
         private readonly IPasswordHasherService _passwordHasherService;

@@ -1,4 +1,4 @@
-﻿namespace Gym.Domain.Enums
+﻿namespace Gym.Enums
 {
     internal enum Day
     {

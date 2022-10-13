@@ -1,5 +1,8 @@
-using Gym.Domain.Helpers;
-using Gym.Settings;
+using Gym.Api.Settings;
+using Gym.Application;
+using Gym.EntityFramework;
+using Gym.Gonfigs;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +14,12 @@ builder.Services.AddControllers()
     .AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwagger();
 
 builder.Services.AddPolicies(builder.Configuration);
 builder.Services.AddBearer(builder.Configuration);
-builder.Services.AddPersistence(builder.Configuration);
-builder.Services.InjectDependencies();
+builder.Services.InjectDatabase(builder.Configuration);
+builder.Services.InjectServices();
 builder.Services.Configure<AuthConfigs>(builder.Configuration.GetSection("AuthConfigs"));
 
 var app = builder.Build();
