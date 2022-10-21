@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gym.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace Gym.Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost(Name = "AuthenticateByEmail")]
+        [HttpPost("authenticateByEmail")]
         public IActionResult AuthenticateByEmail([FromBody]AuthRequest request)
         {
             try
@@ -28,6 +28,22 @@ namespace Gym.Api.Controllers
 
                 if (response == null)
                     return BadRequest(new { message = "Email ou senha incorretos" });
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("refreshToken")]
+        public IActionResult RefreshToken([FromBody] string refreshToken)
+        {
+            try
+            {
+                _logger.LogInformation("Refresh token Initiated");
+                var response = _authService.RefreshToken(refreshToken, IpAddress());
 
                 return Ok(response);
             }

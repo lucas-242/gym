@@ -1,6 +1,7 @@
 ﻿using Gym.Application.Persistence;
 using Gym.Application.Services.Repositories;
 using Gym.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gym.EntityFramework.Repositories
 {
@@ -13,7 +14,7 @@ namespace Gym.EntityFramework.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public User? Get(string email)
+        public User? GetUserByEmail(string email)
         {
 
             var result = _applicationDbContext.Users
@@ -23,9 +24,29 @@ namespace Gym.EntityFramework.Repositories
             return result;
         }
 
+        public User? GetUserByToken(string token)
+        {
+
+            var result = _applicationDbContext.Users
+                .Include(u => u.RefreshTokens)
+                .Where(u => u.RefreshTokens.Select(rt => rt.Token).Contains(token))
+                .SingleOrDefault();
+
+            return result;
+        }
+
         public void CreateRefreshToken(RefreshToken model)
         {
             _applicationDbContext.RefreshTokens.Add(model);
+        }
+
+        public void UpdateRefreshToken(RefreshToken model)
+        {
+            _applicationDbContext.RefreshTokens.Update(model);
+        }
+
+        public void SaveChanges()
+        {
             _applicationDbContext.SaveChanges();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Gym.Application.Services.Repositories;
+﻿using Gym.Application.Repositories;
+using Gym.Application.Services.Repositories;
 using Gym.DataAccess.Request;
 using Gym.DataAccess.Response;
 using Gym.Entities;
@@ -7,9 +8,11 @@ using Gym.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Transactions;
 
 namespace Gym.Application.Services
 {
@@ -28,22 +31,22 @@ namespace Gym.Application.Services
 
         public AuthResponse AuthenticateByEmail(AuthRequest request, string ipAddress)
         {
-            var user = _authRepository.Get(request.Email);
-            if (user == null) throw new Exception("No user found");
+            var user = _authRepository.GetUserByEmail(request.Email);
+            if (user == null) throw new Exception("Email or password is wrong.");
 
             var (verified, needsUpgrade) = _passwordHasherService.Check(user.Password, request.Password);
-
-            if (!verified) throw new Exception("No user found"); ;
+            if (!verified) throw new Exception("Email or password is wrong."); ;
 
             var jwtToken = GenerateJwtToken(user);
             var refreshToken = GenerateRefreshToken(ipAddress, user.Id);
 
             _authRepository.CreateRefreshToken(refreshToken);
+            _authRepository.SaveChanges();
 
             return new AuthResponse(jwtToken, refreshToken.Token);
         }
 
-        private string GenerateJwtToken(User user, DateTime? expiresIn = null)
+        private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_authConfigs.JwtSecret);
@@ -57,7 +60,7 @@ namespace Gym.Application.Services
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
 
-                Expires = expiresIn ?? DateTime.UtcNow.AddMinutes(35),
+                Expires = DateTime.UtcNow.AddMinutes(_authConfigs.JwtMinutesToExpire),
 
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -66,7 +69,7 @@ namespace Gym.Application.Services
             return tokenHandler.WriteToken(token);
         }
 
-        private static RefreshToken GenerateRefreshToken(string ipAddress, int userId, DateTime? expiresIn = null)
+        private RefreshToken GenerateRefreshToken(string ipAddress, int userId)
         {
             var number = RandomNumberGenerator.Create();
             var randomBytes = new byte[64];
@@ -74,11 +77,44 @@ namespace Gym.Application.Services
             return new RefreshToken
             {
                 Token = Convert.ToBase64String(randomBytes),
-                Expires = expiresIn ?? DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(_authConfigs.RefreshTokenMinutesToExpire),
                 CreatedAt = DateTime.UtcNow,
                 CreatedByIp = ipAddress,
                 UserId = userId
             };
+        }
+
+        public AuthResponse RefreshToken(string refreshToken, string ipAddress)
+        {
+            var user = _authRepository.GetUserByToken(refreshToken);
+            if (user == null) throw new Exception("Invalid token");
+
+            RefreshToken? foundedToken = null;
+            if (user.RefreshTokens is not null)
+                foundedToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
+
+            if (foundedToken is null || !foundedToken.IsActive) throw new Exception("Invalid token");
+
+            var newRefreshToken = GenerateRefreshToken(ipAddress, user.Id);
+            UpdateRefreshToken(foundedToken, newRefreshToken, ipAddress);
+
+            _authRepository.CreateRefreshToken(newRefreshToken);
+
+            var jwtToken = GenerateJwtToken(user);
+            _authRepository.SaveChanges();
+
+            return new AuthResponse(jwtToken, newRefreshToken.Token);
+        }
+
+        private void UpdateRefreshToken(RefreshToken? refreshToken, RefreshToken newRefreshToken, string ipAddress)
+        {
+            if (refreshToken == null) return;
+
+            refreshToken.Revoked = DateTime.UtcNow;
+            refreshToken.RevokedByIp = ipAddress;
+            refreshToken.ReplacedByToken = newRefreshToken.Token;
+
+            _authRepository.UpdateRefreshToken(refreshToken);
         }
     }
 }

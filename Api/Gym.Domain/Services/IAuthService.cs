@@ -7,5 +7,7 @@ namespace Gym.Services
     {
         public abstract AuthResponse AuthenticateByEmail(AuthRequest authRequest, string ipAddress);
 
+        public abstract AuthResponse RefreshToken(string password, string ipAddress);
+
     }
 }
