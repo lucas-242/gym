@@ -6,5 +6,6 @@ namespace Gym.Application.Repositories
     {
         public User Create(User model);
         public User? Get(string email);
+        public void SaveChanges();
     }
 }

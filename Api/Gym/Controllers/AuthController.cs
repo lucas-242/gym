@@ -8,7 +8,6 @@ namespace Gym.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-
         private readonly ILogger<AuthController> _logger;
         private readonly IAuthService _authService;
 
@@ -19,38 +18,23 @@ namespace Gym.Api.Controllers
         }
 
         [HttpPost("authenticateByEmail")]
-        public IActionResult AuthenticateByEmail([FromBody]AuthRequest request)
+        public IActionResult AuthenticateByEmail([FromBody] AuthRequest request)
         {
-            try
-            {
-                _logger.LogInformation("Authenticated Initiated");
-                var response = _authService.AuthenticateByEmail(request, IpAddress());
+            _logger.LogInformation("Authenticate by email started");
+            var response = _authService.AuthenticateByEmail(request, IpAddress());
+            _logger.LogInformation("Authenticated by email successfuly");
 
-                if (response == null)
-                    return BadRequest(new { message = "Email ou senha incorretos" });
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return Ok(response);
         }
 
         [HttpPost("refreshToken")]
         public IActionResult RefreshToken([FromBody] string refreshToken)
         {
-            try
-            {
-                _logger.LogInformation("Refresh token Initiated");
-                var response = _authService.RefreshToken(refreshToken, IpAddress());
+            _logger.LogInformation("Refresh token started");
+            var response = _authService.RefreshToken(refreshToken, IpAddress());
+            _logger.LogInformation("Token Refreshed successfuly");
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return Ok(response);
         }
 
         private string IpAddress()

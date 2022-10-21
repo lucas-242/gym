@@ -23,17 +23,11 @@ namespace Gym.Api.Controllers
         [Authorize(nameof(Policies.NotStudent))]
         public IActionResult Create([FromBody] User request)
         {
-            try
-            {
-                _logger.LogInformation("Create user initiated");
-                var response = _userService.Create(request);
+            _logger.LogInformation("Create user started");
+            var response = _userService.Create(request);
+            _logger.LogInformation("User created");
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return Created($"user/{response.Id}", response);
         }
     }
 }

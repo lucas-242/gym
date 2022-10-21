@@ -1,6 +1,8 @@
 ﻿using Gym.Application.Services;
 using Gym.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Gym.Application
 {

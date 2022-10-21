@@ -1,8 +1,8 @@
-﻿using Gym.Application.Repositories;
-using Gym.Application.Services.Repositories;
+﻿using Gym.Application.Services.Repositories;
 using Gym.DataAccess.Request;
 using Gym.DataAccess.Response;
 using Gym.Entities;
+using Gym.Exceptions;
 using Gym.Gonfigs;
 using Gym.Services;
 using Microsoft.Extensions.Options;
@@ -12,7 +12,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Transactions;
 
 namespace Gym.Application.Services
 {
@@ -32,10 +31,10 @@ namespace Gym.Application.Services
         public AuthResponse AuthenticateByEmail(AuthRequest request, string ipAddress)
         {
             var user = _authRepository.GetUserByEmail(request.Email);
-            if (user == null) throw new Exception("Email or password is wrong.");
+            if (user == null) throw new AppException(HttpStatusCode.BadRequest, "Email or password is wrong.");
 
             var (verified, needsUpgrade) = _passwordHasherService.Check(user.Password, request.Password);
-            if (!verified) throw new Exception("Email or password is wrong."); ;
+            if (!verified) throw new AppException(HttpStatusCode.BadRequest, "Email or password is wrong.");
 
             var jwtToken = GenerateJwtToken(user);
             var refreshToken = GenerateRefreshToken(ipAddress, user.Id);
@@ -87,13 +86,13 @@ namespace Gym.Application.Services
         public AuthResponse RefreshToken(string refreshToken, string ipAddress)
         {
             var user = _authRepository.GetUserByToken(refreshToken);
-            if (user == null) throw new Exception("Invalid token");
+            if (user == null) throw new AppException(HttpStatusCode.BadRequest, "Invalid token");
 
             RefreshToken? foundedToken = null;
             if (user.RefreshTokens is not null)
                 foundedToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
 
-            if (foundedToken is null || !foundedToken.IsActive) throw new Exception("Invalid token");
+            if (foundedToken is null || !foundedToken.IsActive) throw new AppException(HttpStatusCode.BadRequest, "Invalid token");
 
             var newRefreshToken = GenerateRefreshToken(ipAddress, user.Id);
             UpdateRefreshToken(foundedToken, newRefreshToken, ipAddress);

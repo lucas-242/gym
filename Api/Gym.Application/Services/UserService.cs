@@ -1,6 +1,8 @@
 ﻿using Gym.Application.Repositories;
 using Gym.Entities;
+using Gym.Exceptions;
 using Gym.Services;
+using System.Net;
 
 namespace Gym.Application.Services
 {
@@ -17,17 +19,15 @@ namespace Gym.Application.Services
 
         public User Create(User model)
         {
-            try
-            {
-                model.Password = _passwordHasherService.Hash(model.Password);
-                var result = _userRepository.Create(model);
-                result.Password = null;
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("There is an user with this email");
-            }
+            var userExist = _userRepository.Get(model.Email) != null;
+            if (userExist) throw new AppException(HttpStatusCode.BadRequest, "There is an user with this email");
+
+            model.Password = _passwordHasherService.Hash(model.Password);
+            var result = _userRepository.Create(model);
+            _userRepository.SaveChanges();
+            result.Password = null!;
+            return result;
+
 
         }
     }

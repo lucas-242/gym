@@ -15,7 +15,6 @@ namespace Gym.EntityFramework.Repositories
         public User Create(User model)
         {
             _applicationDbContext.Users.Add(model);
-            _applicationDbContext.SaveChanges();
             return model;
         }
 
@@ -24,6 +23,11 @@ namespace Gym.EntityFramework.Repositories
             var response = _applicationDbContext.Users.Where(u => u.Email == email).SingleOrDefault();
             return response;
 
+        }
+
+        public void SaveChanges()
+        {
+            _applicationDbContext.SaveChanges();
         }
     }
 }
