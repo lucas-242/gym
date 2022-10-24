@@ -15,9 +15,9 @@ namespace Gym.EntityFramework.Repositories
             _context = context;
         }
 
-        public Routine? GetById(int id)
+        public Routine? Get(int id)
         {
-            var result = _context.Routines.Where(r => r.Id.Equals(id)).SingleOrDefault();
+            var result = _context.Routines.SingleOrDefault(r => r.Id.Equals(id));
             return result;
         }
 

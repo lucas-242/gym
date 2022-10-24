@@ -1,16 +1,13 @@
 ﻿using Gym.DataAccess.Request;
-using Gym.Entities;
 using Gym.Enums;
 using Gym.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Gym.Api.Utils;
 
 namespace Gym.Api.Controllers
 {
     [Route("api/routine")]
-    [Authorize(nameof(Policies.NotStudent))]
+    [Authorize]
     [ApiController]
     public class RoutineController : ControllerBase
     {
@@ -26,24 +23,29 @@ namespace Gym.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            //_logger.LogInformation("Update routine started");
-            //var result = _routineService.CreateOrUpdate(id, model);
-            //_logger.LogInformation("Routine updated successfuly");
+            _logger.LogInformation("Get routine number {id} started", new { id });
+            var result = _routineService.Get(id);
 
-            //return Created(HttpContext.GetUrl($"routine/{result.Id}"), result);
-            //return Created(HttpContext.GetUrl($"routine/{result.Id}"), result);
-            return Ok();
+            if (result == null)
+            {
+                _logger.LogInformation("Get returned none");
+                return NotFound();
+            }
+
+            _logger.LogInformation("Get returned object number {id}", new { id });
+            return Ok(result);
         }
 
 
         [HttpPut("{id}")]
+        [Authorize(nameof(Policies.NotStudent))]
         public IActionResult CreateOrUpdate(int id, [FromBody] RoutineRequest model)
         {
-            _logger.LogInformation("Update routine started");
+            _logger.LogInformation("Create or update routine started");
             var result = _routineService.CreateOrUpdate(id, model);
-            _logger.LogInformation("Routine updated successfuly");
+            _logger.LogInformation("Routine Created or updated successfuly");
 
-            return CreatedAtAction("Get", new { id = id }, result);
+            return CreatedAtAction("Get", new { id }, result);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Gym.Application.Services
         public Routine CreateOrUpdate(int id, RoutineRequest model)
         {
             Routine result;
-            var routineFound = _routineRepository.GetById(id);
+            var routineFound = _routineRepository.Get(id);
             if (routineFound is null)
             {
                 result = Create(model);
@@ -32,6 +32,7 @@ namespace Gym.Application.Services
             _routineRepository.SaveChanges();
             return result;
         }
+
 
         private Routine Create(RoutineRequest model)
         {
@@ -54,5 +55,12 @@ namespace Gym.Application.Services
             var result = _routineRepository.Update(routine);
             return result;
         }
+
+        public Routine? Get(int id)
+        {
+            var result = _routineRepository.Get(id);
+            return result;
+        }
+
     }
 }
