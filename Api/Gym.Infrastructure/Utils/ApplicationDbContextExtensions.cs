@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gym.EntityFramework.Utils
 {
-    internal static class ApplocationDbContextExtensions
+    internal static class ApplicationDbContextExtensions
     {
-        public static void DetachLocalById<TEntity>(this IApplicationDbContext context, int id) where TEntity : BaseEntity
+        public static void DetachLocal<TEntity>(this IApplicationDbContext context, int id) where TEntity : BaseEntity
         {
             var predicate = (TEntity e) => e.Id == id;
             DetachLocal(context, predicate);

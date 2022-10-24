@@ -29,7 +29,7 @@ namespace Gym.EntityFramework.Repositories
 
         public Routine Update(Routine routine)
         {
-            _context.DetachLocalById<Routine>(routine.Id);
+            _context.DetachLocal<Routine>(routine.Id);
             _context.Routines.Update(routine);
             return routine;
         }
