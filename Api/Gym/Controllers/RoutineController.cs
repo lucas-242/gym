@@ -23,7 +23,7 @@ namespace Gym.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            _logger.LogInformation("Get routine number {id} started", new { id });
+            _logger.LogInformation("Starting to get routine number {id}", id);
             var result = _routineService.Get(id);
 
             if (result == null)
@@ -32,7 +32,7 @@ namespace Gym.Api.Controllers
                 return NotFound();
             }
 
-            _logger.LogInformation("Get returned object number {id}", new { id });
+            _logger.LogInformation("Get routine returned object number {id}", id);
             return Ok(result);
         }
 
@@ -41,11 +41,22 @@ namespace Gym.Api.Controllers
         [Authorize(nameof(Policies.NotStudent))]
         public IActionResult CreateOrUpdate(int id, [FromBody] RoutineRequest model)
         {
-            _logger.LogInformation("Create or update routine started");
+            _logger.LogInformation("Starting to Create or update routine");
             var result = _routineService.CreateOrUpdate(id, model);
             _logger.LogInformation("Routine Created or updated successfuly");
 
             return CreatedAtAction("Get", new { id }, result);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(nameof(Policies.NotStudent))]
+        public IActionResult Delete(int id)
+        {
+            _logger.LogInformation("Starting to delete routine {id}", id);
+            _routineService.Delete(id);
+            _logger.LogInformation("Routine deleted {id} successfuly", id);
+
+            return NoContent();
         }
     }
 }

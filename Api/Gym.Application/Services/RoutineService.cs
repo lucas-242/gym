@@ -62,5 +62,16 @@ namespace Gym.Application.Services
             return result;
         }
 
+        public void Delete(int id)
+        {
+            var routine = _routineRepository.Get(id);
+            if (routine is null)
+            {
+                throw new AppException(HttpStatusCode.NotFound, $"No Routine with the indentifier {id}");
+            }
+
+            _routineRepository.Delete(routine);
+            _routineRepository.SaveChanges();
+        }
     }
 }

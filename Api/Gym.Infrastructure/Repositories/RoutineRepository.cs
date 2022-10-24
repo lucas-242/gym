@@ -20,6 +20,10 @@ namespace Gym.EntityFramework.Repositories
             var result = _context.Routines.SingleOrDefault(r => r.Id.Equals(id));
             return result;
         }
+        public void Delete(Routine routine)
+        {
+            _context.Routines.Remove(routine);
+        }
 
         public Routine Create(Routine routine)
         {
