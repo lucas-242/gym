@@ -1,13 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class Address
+    public partial class Address : BaseEntity
     {
-        public Address()
-        {
-            Companies = new HashSet<Company>();
-        }
-
-        public int Id { get; set; }
         public string? Name { get; set; }
         public string State { get; set; } = null!;
         public string City { get; set; } = null!;
@@ -19,6 +13,6 @@
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<Company>? Companies { get; set; }
     }
 }

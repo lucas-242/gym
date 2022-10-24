@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Gym.DataAccess.Request;
 
 namespace Gym.Entities
 {
-    public partial class Routine
+    public partial class Routine : BaseEntity
     {
-        public Routine()
-        {
-            Workouts = new HashSet<Workout>();
-        }
-
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public DateTime? ExpirationDate { get; set; }
         public int CreatedBy { get; set; }
@@ -22,6 +15,17 @@ namespace Gym.Entities
         public virtual User CreatedByNavigation { get; set; } = null!;
         public virtual User? Student { get; set; }
         public virtual User UpdatedByNavigation { get; set; } = null!;
-        public virtual ICollection<Workout> Workouts { get; set; }
+        public virtual ICollection<Workout> Workouts { get; set; } = null!;
+
+
+        public static implicit operator Routine(RoutineRequest routineRequest) => new()
+        {
+            Name = routineRequest.Name,
+            ExpirationDate = routineRequest.ExpirationDate,
+            CreatedBy = routineRequest.CreatedBy,
+            UpdatedBy = (int)routineRequest.UpdatedBy,
+            StudentId = routineRequest.StudentId,
+            CompanyId = routineRequest.CompanyId,
+        };
     }
 }

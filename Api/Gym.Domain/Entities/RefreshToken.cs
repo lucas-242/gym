@@ -1,8 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public class RefreshToken
+    public class RefreshToken : BaseEntity
     {
-        public int Id { get; set; }
         public string Token { get; set; } = null!;
         public DateTime Expires { get; set; }
         public bool IsExpired => DateTime.UtcNow >= Expires;

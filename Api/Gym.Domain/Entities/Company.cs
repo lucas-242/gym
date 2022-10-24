@@ -1,9 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class Company
+    public partial class Company : BaseEntity
     {
-
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string Cnpj { get; set; } = null!;
         public string? Image { get; set; }

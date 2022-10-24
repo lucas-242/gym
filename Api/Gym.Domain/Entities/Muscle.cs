@@ -1,15 +1,9 @@
 ﻿namespace Gym.Entities
 {
-    public partial class Muscle
+    public partial class Muscle : BaseEntity
     {
-        public Muscle()
-        {
-            ExerciseMuscles = new HashSet<ExerciseMuscle>();
-        }
-
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<ExerciseMuscle> ExerciseMuscles { get; set; }
+        public virtual ICollection<ExerciseMuscle>? ExerciseMuscles { get; set; }
     }
 }

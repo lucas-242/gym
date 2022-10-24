@@ -1,13 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class Workout
+    public partial class Workout : BaseEntity
     {
-        public Workout()
-        {
-            WorkoutExercises = new HashSet<WorkoutExercise>();
-        }
-
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public bool Sunday { get; set; }
         public bool Monday { get; set; }
@@ -19,6 +13,6 @@
         public int RoutineId { get; set; }
 
         public virtual Routine Routine { get; set; } = null!;
-        public virtual ICollection<WorkoutExercise> WorkoutExercises { get; set; }
+        public virtual ICollection<WorkoutExercise>? WorkoutExercises { get; set; }
     }
 }

@@ -1,8 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class BusinessHour
+    public partial class BusinessHour : BaseEntity
     {
-        public int Id { get; set; }
         public TimeSpan OpeningTime { get; set; }
         public TimeSpan ClosingTime { get; set; }
         public bool Sunday { get; set; }

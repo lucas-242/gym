@@ -1,5 +1,6 @@
 ﻿using Gym.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Gym.Application.Persistence
 {
@@ -20,6 +21,10 @@ namespace Gym.Application.Persistence
         DbSet<User> Users { get; set; }
         DbSet<Workout> Workouts { get; set; }
         DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+
+        public abstract EntityEntry Entry(object entity);
+
+        public abstract DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

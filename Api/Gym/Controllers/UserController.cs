@@ -27,7 +27,7 @@ namespace Gym.Api.Controllers
             var response = _userService.Create(request);
             _logger.LogInformation("User created");
 
-            return Created($"user/{response.Id}", response);
+            return CreatedAtAction("Get", new {id = response.Id}, response);
         }
     }
 }

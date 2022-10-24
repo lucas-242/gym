@@ -1,8 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class Set
+    public partial class Set : BaseEntity
     {
-        public int Id { get; set; }
         public int? Repetitions { get; set; }
         public int? Load { get; set; }
         public int? Duration { get; set; }

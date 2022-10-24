@@ -1,8 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class ExerciseImage
+    public partial class ExerciseImage : BaseEntity
     {
-        public int Id { get; set; }
         public string Url { get; set; } = null!;
         public int ExerciseId { get; set; }
 

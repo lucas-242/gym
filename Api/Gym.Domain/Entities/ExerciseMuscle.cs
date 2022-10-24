@@ -1,8 +1,7 @@
 ﻿namespace Gym.Entities
 {
-    public partial class ExerciseMuscle
+    public partial class ExerciseMuscle : BaseEntity
     {
-        public int Id { get; set; }
         public bool IsPrimary { get; set; }
         public int ExerciseId { get; set; }
         public int MuscleId { get; set; }

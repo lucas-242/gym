@@ -32,6 +32,7 @@ namespace Gym.EntityFramework
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IRoutineRepository, RoutineRepository>();
         }
     }
 }
