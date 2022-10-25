@@ -20,7 +20,7 @@ namespace Gym.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(nameof(Policies.NotStudent))]
+        [Authorize(nameof(Policy.NotStudent))]
         public IActionResult Create([FromBody] User request)
         {
             _logger.LogInformation("Create user started");

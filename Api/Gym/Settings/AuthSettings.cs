@@ -29,10 +29,10 @@ namespace Gym.Api.Settings
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(Policies.NotStudent.ToString(),
+                options.AddPolicy(Policy.NotStudent.ToString(),
                              policy =>
                              {
-                                 policy.RequireRole(Roles.admin.ToString(), Roles.teacher.ToString());
+                                 policy.RequireRole(Role.admin.ToString(), Role.teacher.ToString());
                              }
                      );
             });

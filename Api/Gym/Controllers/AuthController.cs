@@ -22,7 +22,7 @@ namespace Gym.Api.Controllers
         public IActionResult AuthenticateByEmail([FromBody] AuthRequest request)
         {
             _logger.LogInformation("Authenticate by email started");
-            var response = _authService.AuthenticateByEmail(request, HttpContext.GetIpAddress());
+            var response = _authService.AuthenticateByEmail(request);
             _logger.LogInformation("Authenticated by email successfuly");
 
             return Ok(response);
@@ -32,7 +32,7 @@ namespace Gym.Api.Controllers
         public IActionResult RefreshToken([FromBody] string refreshToken)
         {
             _logger.LogInformation("Refresh token started");
-            var response = _authService.RefreshToken(refreshToken, HttpContext.GetIpAddress());
+            var response = _authService.RefreshToken(refreshToken);
             _logger.LogInformation("Token Refreshed successfuly");
 
             return Ok(response);

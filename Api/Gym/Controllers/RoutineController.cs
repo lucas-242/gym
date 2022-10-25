@@ -1,4 +1,5 @@
-﻿using Gym.DataAccess.Request;
+﻿using Gym.Api.Utils;
+using Gym.DataAccess.Request;
 using Gym.Enums;
 using Gym.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,7 @@ namespace Gym.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
             _logger.LogInformation("Starting to get routine number {id}", id);
             var result = _routineService.Get(id);
@@ -38,7 +39,7 @@ namespace Gym.Api.Controllers
 
 
         [HttpPut("{id}")]
-        [Authorize(nameof(Policies.NotStudent))]
+        [Authorize(nameof(Policy.NotStudent))]
         public IActionResult CreateOrUpdate(int id, [FromBody] RoutineRequest model)
         {
             _logger.LogInformation("Starting to Create or update routine");
@@ -49,7 +50,7 @@ namespace Gym.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(nameof(Policies.NotStudent))]
+        [Authorize(nameof(Policy.NotStudent))]
         public IActionResult Delete(int id)
         {
             _logger.LogInformation("Starting to delete routine {id}", id);

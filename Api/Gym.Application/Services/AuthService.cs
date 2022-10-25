@@ -1,10 +1,13 @@
-﻿using Gym.Application.Services.Repositories;
+﻿using Gym.Application.Models;
+using Gym.Application.Services.Repositories;
+using Gym.Application.Utils;
 using Gym.DataAccess.Request;
 using Gym.DataAccess.Response;
 using Gym.Entities;
 using Gym.Exceptions;
 using Gym.Gonfigs;
 using Gym.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,15 +23,17 @@ namespace Gym.Application.Services
         private readonly AuthConfigs _authConfigs;
         private readonly IPasswordHasherService _passwordHasherService;
         private readonly IAuthRepository _authRepository;
+        private readonly RequestDetails _requestDetails;
 
-        public AuthService(IOptions<AuthConfigs> authConfigs, IPasswordHasherService passwordHasherService, IAuthRepository authRepository)
+        public AuthService(IOptions<AuthConfigs> authConfigs, IPasswordHasherService passwordHasherService, IAuthRepository authRepository, IHttpContextAccessor httpContextAccessor)
         {
             _passwordHasherService = passwordHasherService;
             _authRepository = authRepository;
             _authConfigs = authConfigs.Value;
+            _requestDetails = httpContextAccessor.GetRequestDetails();
         }
 
-        public AuthResponse AuthenticateByEmail(AuthRequest request, string ipAddress)
+        public AuthResponse AuthenticateByEmail(AuthRequest request)
         {
             var user = _authRepository.GetUserByEmail(request.Email);
             if (user == null) throw new AppException(HttpStatusCode.BadRequest, "Email or password is wrong.");
@@ -37,7 +42,7 @@ namespace Gym.Application.Services
             if (!verified) throw new AppException(HttpStatusCode.BadRequest, "Email or password is wrong.");
 
             var jwtToken = GenerateJwtToken(user);
-            var refreshToken = GenerateRefreshToken(ipAddress, user.Id);
+            var refreshToken = GenerateRefreshToken(_requestDetails.Ip, user.Id);
 
             _authRepository.CreateRefreshToken(refreshToken);
             _authRepository.SaveChanges();
@@ -83,19 +88,19 @@ namespace Gym.Application.Services
             };
         }
 
-        public AuthResponse RefreshToken(string refreshToken, string ipAddress)
+        public AuthResponse RefreshToken(string refreshToken)
         {
             var user = _authRepository.GetUserByToken(refreshToken);
-            if (user == null) throw new AppException(HttpStatusCode.BadRequest, "Invalid token");
+            if (user == null) throw new AppException(HttpStatusCode.Unauthorized, "Invalid token");
 
             RefreshToken? foundedToken = null;
             if (user.RefreshTokens is not null)
                 foundedToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
 
-            if (foundedToken is null || !foundedToken.IsActive) throw new AppException(HttpStatusCode.BadRequest, "Invalid token");
+            if (foundedToken is null || !foundedToken.IsActive) throw new AppException(HttpStatusCode.Unauthorized, "Invalid token");
 
-            var newRefreshToken = GenerateRefreshToken(ipAddress, user.Id);
-            UpdateRefreshToken(foundedToken, newRefreshToken, ipAddress);
+            var newRefreshToken = GenerateRefreshToken(_requestDetails.Ip, user.Id);
+            UpdateRefreshToken(foundedToken, newRefreshToken, _requestDetails.Ip);
 
             _authRepository.CreateRefreshToken(newRefreshToken);
 

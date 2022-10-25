@@ -1,8 +1,12 @@
-﻿using Gym.Application.Repositories;
+﻿using Gym.Application.Models;
+using Gym.Application.Repositories;
+using Gym.Application.Utils;
 using Gym.DataAccess.Request;
 using Gym.Entities;
+using Gym.Enums;
 using Gym.Exceptions;
 using Gym.Services;
+using Microsoft.AspNetCore.Http;
 using System.Net;
 
 namespace Gym.Application.Services
@@ -10,12 +14,13 @@ namespace Gym.Application.Services
     internal class RoutineService : IRoutineService
     {
         private readonly IRoutineRepository _routineRepository;
+        private readonly RequestDetails _requestDetails;
 
-        public RoutineService(IRoutineRepository routineRepository)
+        public RoutineService(IRoutineRepository routineRepository, IHttpContextAccessor httpContextAccessor)
         {
             _routineRepository = routineRepository;
+            _requestDetails = httpContextAccessor.GetRequestDetails();
         }
-
 
         public Routine CreateOrUpdate(int id, RoutineRequest model)
         {
@@ -59,6 +64,7 @@ namespace Gym.Application.Services
         public Routine? Get(int id)
         {
             var result = _routineRepository.Get(id);
+            CheckUserAccessToResource(result);
             return result;
         }
 
@@ -72,6 +78,14 @@ namespace Gym.Application.Services
 
             _routineRepository.Delete(routine);
             _routineRepository.SaveChanges();
+        }
+
+        private void CheckUserAccessToResource(Routine? routine)
+        {
+            if (routine is not null && _requestDetails.UserRole == Role.student && routine.StudentId != _requestDetails.UserId)
+            {
+                throw new AppException(HttpStatusCode.Forbidden, "User doesn't have access to the requested routine");
+            }
         }
     }
 }

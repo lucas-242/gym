@@ -2,7 +2,6 @@ using Gym.Api.Settings;
 using Gym.Application;
 using Gym.EntityFramework;
 using Gym.Gonfigs;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +17,7 @@ builder.Services.AddSwagger();
 
 builder.Services.AddPolicies(builder.Configuration);
 builder.Services.AddBearer(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
 builder.Services.InjectDatabase(builder.Configuration);
 builder.Services.InjectServices();
 builder.Services.Configure<AuthConfigs>(builder.Configuration.GetSection("AuthConfigs"));

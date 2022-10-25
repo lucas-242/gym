@@ -1,6 +1,6 @@
 ﻿namespace Gym.Enums
 {
-    public enum Roles
+    public enum Role
     {
         admin,
         teacher,

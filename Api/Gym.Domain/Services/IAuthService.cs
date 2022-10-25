@@ -5,9 +5,9 @@ namespace Gym.Services
 {
     public interface IAuthService
     {
-        public abstract AuthResponse AuthenticateByEmail(AuthRequest authRequest, string ipAddress);
+        public abstract AuthResponse AuthenticateByEmail(AuthRequest authRequest);
 
-        public abstract AuthResponse RefreshToken(string password, string ipAddress);
+        public abstract AuthResponse RefreshToken(string password);
 
     }
 }

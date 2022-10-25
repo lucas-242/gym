@@ -1,6 +1,6 @@
 ﻿namespace Gym.Enums
 {
-    public enum Policies
+    public enum Policy
     {
         NotStudent
     }
