@@ -1,5 +1,4 @@
-﻿using Gym.Api.Utils;
-using Gym.DataAccess.Request;
+﻿using Gym.DataAccess.Request;
 using Gym.Services;
 using Microsoft.AspNetCore.Mvc;
 

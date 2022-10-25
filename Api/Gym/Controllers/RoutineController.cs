@@ -1,5 +1,4 @@
-﻿using Gym.Api.Utils;
-using Gym.DataAccess.Request;
+﻿using Gym.DataAccess.Request;
 using Gym.Enums;
 using Gym.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +18,15 @@ namespace Gym.Api.Controllers
         {
             _logger = logger;
             _routineService = routineService;
+        }
+
+        [HttpGet("user/{studentId}")]
+        public IActionResult Get(int studentId)
+        {
+            _logger.LogInformation("Starting to get routines from student {studentId}", studentId);
+            var result = _routineService.GetByStudent(studentId);
+            _logger.LogInformation("Get found {count} routines from student {studentId}", result.Count(), studentId);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

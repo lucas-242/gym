@@ -14,6 +14,11 @@ namespace Gym.EntityFramework.Repositories
         {
             _context = context;
         }
+        public IEnumerable<Routine> GetByStudent(int studentId)
+        {
+            var result = _context.Routines.Where(r => r.StudentId.Equals(studentId));
+            return result;
+        }
 
         public Routine? Get(int id)
         {

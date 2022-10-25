@@ -60,6 +60,12 @@ namespace Gym.Application.Services
             var result = _routineRepository.Update(routine);
             return result;
         }
+        public IEnumerable<Routine> GetByStudent(int studentId)
+        {
+            var result = _routineRepository.GetByStudent(studentId);
+            CheckUserAccessToResources(result);
+            return result;
+        }
 
         public Routine? Get(int id)
         {
@@ -78,6 +84,14 @@ namespace Gym.Application.Services
 
             _routineRepository.Delete(routine);
             _routineRepository.SaveChanges();
+        }
+
+        private void CheckUserAccessToResources(IEnumerable<Routine> routines)
+        {
+            if (_requestDetails.UserRole == Role.student && routines.Any(r => r.StudentId != _requestDetails.UserId))
+            {
+                throw new AppException(HttpStatusCode.Forbidden, "User doesn't have access to the requested routine");
+            }
         }
 
         private void CheckUserAccessToResource(Routine? routine)
